@@ -1,0 +1,7 @@
+include ':app', ':testapi'
+
+include ':merseylibrary'
+project(':merseylibrary').projectDir = new File(settingsDir, '../merseylibrary')
+
+include ':basemvvmimpl'
+project(':basemvvmimpl').projectDir = new File(settingsDir, '../AndroidXMVVMArch')

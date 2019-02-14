@@ -1,0 +1,70 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.merseyside.amazingtestapp"
+        minSdkVersion 17
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':merseylibrary')
+    implementation project(':basemvvmimpl')
+    implementation project(':testapi')
+
+
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation "androidx.appcompat:appcompat:$rootProject.androidXVersion"
+    implementation "androidx.core:core-ktx:$rootProject.ktxCoreVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
+
+    implementation "androidx.recyclerview:recyclerview:$rootProject.androidXVersion"
+    implementation "com.google.android.material:material:$rootProject.materialDesignVersion"
+    implementation "androidx.annotation:annotation:$rootProject.androidXVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
+
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjava2Version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.kotlinRxVersion"
+
+    implementation "com.google.dagger:dagger:$rootProject.dagger2Version"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.dagger2CompilerVersion"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+
+    implementation "android.arch.lifecycle:extensions:$rootProject.lifecycleExtensions"
+    kapt "android.arch.lifecycle:compiler:$rootProject.lifecycleExtensions"
+    implementation "android.arch.persistence.room:rxjava2:$rootProject.lifecycleExtensions"
+    kapt "android.arch.persistence.room:compiler:$rootProject.lifecycleExtensions"
+
+    implementation "android.arch.paging:runtime:1.0.1"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}

@@ -17,5 +17,7 @@ class GetDataPageInteractor @Inject constructor(threadExecutor: ThreadExecutor,
         return dataRepository.loadPages(params!!.startPage, params.endPage)
     }
 
-    data class Params(val startPage : Int, val endPage : Int = startPage)
+    data class Params(val startPage : Int,
+                      val endPage : Int = startPage
+    )
 }

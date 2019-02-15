@@ -10,12 +10,15 @@ import com.upstream.basemvvmimpl.domain.interactor.DefaultSingleObserver
 
 class MainActivityViewModel(private val getDataPageUseCase : GetDataPageInteractor) : BaseTestViewModel() {
 
-    private val TAG = javaClass.canonicalName
-    private val INITIAL_PAGES_COUNT = 3
+    private val TAG = javaClass.simpleName
+    private val INITIAL_PAGES_COUNT = 2
 
-    private var currentPageIndex : Int = 0
+    private var currentPageIndex = 0
+    private var loadingPageIndex = 0
 
-    private val records : List<Record> = ArrayList()
+    private var isLoading = false
+
+    private val records : MutableList<Record> = ArrayList()
 
     val recordsLiveData = MutableLiveData<List<Record>>()
 
@@ -30,7 +33,7 @@ class MainActivityViewModel(private val getDataPageUseCase : GetDataPageInteract
     override fun updateLanguage(context: Context) {}
 
     fun restoreRecords() : List<Record> {
-        if (!recordsLiveData.value?.isEmpty()!!) {
+        if (recordsLiveData.value != null) {
             recordsLiveData.value = null
         }
 
@@ -38,11 +41,21 @@ class MainActivityViewModel(private val getDataPageUseCase : GetDataPageInteract
     }
 
     fun loadNextPages() {
-        if (currentPageIndex == 0) {
-            getDataPageUseCase.execute(RecordsObserver(),
-                    GetDataPageInteractor.Params(currentPageIndex + 1, currentPageIndex + 1 + INITIAL_PAGES_COUNT))
-        } else {
-            getDataPageUseCase.execute(RecordsObserver(), GetDataPageInteractor.Params(currentPageIndex + 1))
+        if (!isLoading) {
+
+            isLoading = true
+
+            if (currentPageIndex == 0) {
+                showProgress()
+
+                loadingPageIndex = currentPageIndex + INITIAL_PAGES_COUNT
+
+                getDataPageUseCase.execute(RecordsObserver(),
+                        GetDataPageInteractor.Params(currentPageIndex + 1, loadingPageIndex))
+            } else {
+                loadingPageIndex = currentPageIndex + 1
+                getDataPageUseCase.execute(RecordsObserver(), GetDataPageInteractor.Params(loadingPageIndex))
+            }
         }
     }
 
@@ -51,11 +64,16 @@ class MainActivityViewModel(private val getDataPageUseCase : GetDataPageInteract
         override fun onSuccess(obj: List<Record>) {
             super.onSuccess(obj)
 
-            currentPageIndex++
+            hideProgress()
+
+            currentPageIndex = loadingPageIndex
 
             Log.d(TAG, "size = ${obj.size}")
 
             recordsLiveData.value = obj
+            records.addAll(obj)
+
+            isLoading = false
         }
 
         override fun onError(throwable: Throwable) {

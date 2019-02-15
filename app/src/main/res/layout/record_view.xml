@@ -15,13 +15,17 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{obj.title}"/>
+            android:text="@{obj.title}"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/medium_text_size"/>
 
         <TextView
             android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{obj.body}"/>
+            android:text="@{obj.body}"
+            android:textAlignment="center"/>
 
         <View
             android:layout_width="match_parent"

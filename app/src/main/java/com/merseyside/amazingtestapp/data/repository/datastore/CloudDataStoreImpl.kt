@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class CloudDataStoreImpl @Inject constructor(private val testApi: TestApi): CloudDataStore {
 
-    override fun getNextPageData(page: Int): Single<List<RecordResponse>> {
+    override fun loadPage(page: Int): Single<List<RecordResponse>> {
         return testApi.getNextDataPage(page)
     }
 }

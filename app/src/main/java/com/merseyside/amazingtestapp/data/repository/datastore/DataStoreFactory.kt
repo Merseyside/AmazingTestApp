@@ -18,14 +18,16 @@ class DataStoreFactory @Inject constructor(private val cloudDataStore: CloudData
                 singleList.add(cloudDataStore.loadPage(i))
             }
 
-            return Single.zip(singleList) { it ->
-                val responses = it as List<List<RecordResponse>>
+            return Single.zip(singleList) { array ->
                 val resultList = ArrayList<RecordResponse>()
 
-                responses.forEach { response ->
-                    resultList.addAll(response)
-                }
+                array.forEach {
+                    if (it is List<*>) {
+                        val response = it as List<RecordResponse>
 
+                        resultList.addAll(response)
+                    }
+                }
                 resultList
             }
         } else {

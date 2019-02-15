@@ -1,12 +1,16 @@
 package com.merseyside.amazingtestapp.presentation.view.activity.main_activity.model
 
+import android.util.Log
 import androidx.databinding.Bindable
 import com.merseyside.amazingtestapp.domain.Record
 import com.upstream.basemvvmimpl.presentation.model.BaseSortedAdapterViewModel
 
 class RecordItemViewModel(private val record : Record) : BaseSortedAdapterViewModel<Record>() {
 
+    private val TAG = javaClass.simpleName
+
     override fun isContentTheSame(obj: Record): Boolean {
+        Log.d(TAG, "here")
         return false
     }
 
